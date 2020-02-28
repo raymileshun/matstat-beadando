@@ -8,14 +8,17 @@ var world;
 var points=[];
 let ground, leftWall, rightWall;
 let sdLine, sdConstrainLeft,sdConstrainRight,offset=40;
-let sdLineLength=300,sdLineHeightPos=100;
+let sdLineLength=200,sdLineHeightPos=100;
 let separators=[];
 let separatorCount=10;
 let pointRadius=12;
 let visible=true
+let slider;
 
 function setup() {
+
   createCanvas(500, 500);
+  slider = createSlider(50, 400, sdLineLength);
   rectMode(CENTER)
 
   engine=Engine.create()
@@ -26,12 +29,7 @@ function setup() {
   rightWall=Bodies.rectangle(width,height,1,2*height,{isStatic:true})
   World.add(world,[ground,leftWall,rightWall])
 
-  sdLine=Bodies.rectangle((width/2),sdLineHeightPos,sdLineLength,2,{isStatic:true})
-  sdConstrainLeft=Bodies.rectangle(sdLine.bounds.min.x,sdLineHeightPos/2-offset,2,sdLineHeightPos+2*offset,{isStatic:true})
-  sdConstrainRight=Bodies.rectangle(sdLine.bounds.max.x,sdLineHeightPos/2-offset,2,sdLineHeightPos+2*offset,{isStatic:true})
-  World.add(world,[sdLine,sdConstrainLeft,sdConstrainRight])
-  console.log(sdConstrainLeft)
-
+  addBoxToVisualisation();
 
   for(let i=0;i<separatorCount;i++){
     separators.push(Bodies.rectangle((0+i*width/separatorCount),height,4,height,{isStatic:true}))
@@ -39,9 +37,22 @@ function setup() {
   }
 }
 
+function addBoxToVisualisation(){
+
+
+  sdLine=Bodies.rectangle((width/2),sdLineHeightPos,sdLineLength,2,{isStatic:true})
+  sdConstrainLeft=Bodies.rectangle(sdLine.bounds.min.x,sdLineHeightPos/2-offset,2,sdLineHeightPos+2*offset,{isStatic:true})
+  sdConstrainRight=Bodies.rectangle(sdLine.bounds.max.x,sdLineHeightPos/2-offset,2,sdLineHeightPos+2*offset,{isStatic:true})
+
+  World.add(world,[sdLine,sdConstrainLeft,sdConstrainRight])
+
+}
+
 
 function mouseDragged(){
+  if(mouseX>sdLine.bounds.min.x&&mouseX<sdLine.bounds.max.x&&mouseY<sdLineHeightPos){
   points.push(new Circle(mouseX,mouseY,pointRadius))
+  }
 }
 
 function keyPressed() {
@@ -70,7 +81,14 @@ function drawPointsContainer(){
 }
 
 function draw() {
-  background(60)
+  if(sdLineLength!==slider.value()){
+    Matter.Composite.remove(world, [sdLine,sdConstrainLeft,sdConstrainRight])
+    sdLineLength=slider.value();
+    visible=true
+    addBoxToVisualisation();
+  }
+
+  background(200)
   drawPointsContainer();
 
 
