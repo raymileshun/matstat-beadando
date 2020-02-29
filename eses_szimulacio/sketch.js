@@ -8,17 +8,26 @@ var world;
 var points=[];
 let ground, leftWall, rightWall;
 let sdLine, sdConstrainLeft,sdConstrainRight,offset=40;
-let sdLineLength=200,sdLineHeightPos=100;
+
 let separators=[];
 let separatorCount=10;
 let pointRadius=12;
 let visible=true
 let slider;
 
+let urlParams =window.location.search;
+let screenWidth=800, screenHeight=500;
+let sdLineLength,sdLineHeightPos=100;
+
+
 function setup() {
 
-  createCanvas(500, 500);
-  slider = createSlider(50, 400, sdLineLength);
+  if(urlParams.includes('screenWidth')){
+    screenWidth=urlParams.split('=')[1]
+  }
+  sdLineLength=screenWidth/2-50
+  createCanvas(screenWidth, 500);
+  slider = createSlider(50, 2*sdLineLength, sdLineLength);
   rectMode(CENTER)
 
   engine=Engine.create()
