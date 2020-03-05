@@ -11,9 +11,7 @@ let randomPositions=[];
 let randomHeights=[];
 
 let img;
-function preload() {
-  img = loadImage('animals/corgi.png');
-}
+
 
 function setup() {
   createCanvas(1200, 800);
@@ -63,8 +61,8 @@ function draw() {
   pop()
 
   for(let i=0;i<imagesNumber;i++){
-    image(img, width-randomPositions[i], (i*height+40)/imagesNumber, calculatedSizes[i], calculatedSizes[i]);
-    //ellipse(width-randomPositions[i],(i*height+40)/imagesNumber,calculatedSizes[i])
+    //image(img, width-randomPositions[i], (i*height+40)/imagesNumber, calculatedSizes[i], calculatedSizes[i]);
+    ellipse(width-randomPositions[i],(i*height+40)/imagesNumber,calculatedSizes[i])
   }
 
 }
