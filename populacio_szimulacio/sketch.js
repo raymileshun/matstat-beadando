@@ -62,7 +62,12 @@ function draw() {
 
   for(let i=0;i<imagesNumber;i++){
     //image(img, width-randomPositions[i], (i*height+40)/imagesNumber, calculatedSizes[i], calculatedSizes[i]);
-    ellipse(width-randomPositions[i],(i*height+40)/imagesNumber,calculatedSizes[i])
+    // ellipse(width-randomPositions[i],(i*height+40)/imagesNumber,calculatedSizes[i])
+    push()
+    textSize(calculatedSizes[i])
+    text('🐶',width-randomPositions[i],(i*height+40)/imagesNumber)
+    pop()
+
   }
 
 }
